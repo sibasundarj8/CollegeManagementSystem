@@ -1,5 +1,6 @@
 package com.backend.CollegeManagementSystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(indexes = @Index(name = "idx_professor_name", columnList = "title"))
 public class ProfessorEntity {
 
     @Id
@@ -24,5 +26,6 @@ public class ProfessorEntity {
     private List<SubjectEntity> subjects = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "professors")
+    @JsonIgnore
     private List<StudentEntity> students = new ArrayList<>();
 }

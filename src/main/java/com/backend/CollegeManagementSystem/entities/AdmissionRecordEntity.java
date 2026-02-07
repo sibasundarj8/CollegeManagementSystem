@@ -11,13 +11,13 @@ import lombok.*;
 @Builder
 public class AdmissionRecordEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id  // @GeneratedValue not required here because we add @MapsId here, means it adds student id as its primary key.
     private Long id;
 
     private Integer fees;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST) // save student automatically
+    @MapsId
+    @JoinColumn(name = "student_id", unique = true)
     private StudentEntity student;
 }
