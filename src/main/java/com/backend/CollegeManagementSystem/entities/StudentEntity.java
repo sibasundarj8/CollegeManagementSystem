@@ -26,7 +26,8 @@ public class StudentEntity {
 
     @NotBlank(message = "Registration number is required")
     @Pattern(regexp = "^\\d{10}$", message = "Registration number must be exactly 10 digits")
-    private String regNo;
+    @Column(unique = true)
+    private String registrationNumber;
 
     @ManyToMany(
             fetch = FetchType.LAZY,

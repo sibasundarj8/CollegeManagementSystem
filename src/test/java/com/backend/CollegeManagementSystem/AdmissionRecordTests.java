@@ -22,4 +22,10 @@ public class AdmissionRecordTests {
             System.out.println(record);
         }
     }
+
+    @Test
+    void getAdmissionRecordByIdTest() {
+        AdmissionRecordDto record = admissionRecordService.getRecordById(1L);
+        System.out.println(record);
+    }
 }

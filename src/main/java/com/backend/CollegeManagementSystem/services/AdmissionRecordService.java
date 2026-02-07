@@ -1,7 +1,6 @@
 package com.backend.CollegeManagementSystem.services;
 
 import com.backend.CollegeManagementSystem.dtos.AdmissionRecordDto;
-import com.backend.CollegeManagementSystem.dtos.StudentDto;
 import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
 import com.backend.CollegeManagementSystem.repositories.AdmissionRecordRepository;
@@ -42,12 +41,6 @@ public class AdmissionRecordService {
         AdmissionRecordEntity recordEntity = getRecordByIdOrThrow(id);
 
         return modelMapper.map(recordEntity, AdmissionRecordDto.class);
-    }
-
-    // add a new admission record
-    @Transactional
-    public AdmissionRecordDto addNewAdmissionRecord(StudentDto studentDto) {
-        return null;
     }
 
     // update fees --> no need to load the whole student entity, we just need to update the fees by id.
