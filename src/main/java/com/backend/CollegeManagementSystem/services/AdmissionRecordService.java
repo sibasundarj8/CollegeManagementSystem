@@ -50,7 +50,7 @@ public class AdmissionRecordService {
         return null;
     }
 
-    // update fees
+    // update fees --> no need to load the whole student entity, we just need to update the fees by id.
     @Transactional
     public boolean updateFees(Long id, Integer fees) {
         int rowAffected = repository.updateFees(id, fees);

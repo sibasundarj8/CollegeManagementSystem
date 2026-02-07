@@ -2,7 +2,12 @@ package com.backend.CollegeManagementSystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,10 @@ public class StudentEntity {
     private Long id;
 
     private String name;
+
+    @NotBlank(message = "Registration number is required")
+    @Pattern(regexp = "^\\d{10}$", message = "Registration number must be exactly 10 digits")
+    private String regNo;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
