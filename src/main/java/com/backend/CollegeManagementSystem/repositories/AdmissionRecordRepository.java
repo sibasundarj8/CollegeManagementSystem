@@ -23,7 +23,7 @@ public interface AdmissionRecordRepository extends JpaRepository<AdmissionRecord
      * query to get all records id, student.name and fees
      */
     @Query("""
-           SELECT new com.backend.CollegeManagementSystem.dtos.AdmissionRecordDto(
+           SELECT new com.backend.CollegeManagementSystem.dtos.AdmissionRecordResponseDto(
                a.id, a.student.name, a.fees
            )
            from AdmissionRecordEntity a
