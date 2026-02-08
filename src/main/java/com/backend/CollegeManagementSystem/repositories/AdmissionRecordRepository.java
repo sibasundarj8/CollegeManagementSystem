@@ -1,6 +1,6 @@
 package com.backend.CollegeManagementSystem.repositories;
 
-import com.backend.CollegeManagementSystem.dtos.AdmissionRecordDto;
+import com.backend.CollegeManagementSystem.dtos.AdmissionRecordResponseDto;
 import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,5 +28,5 @@ public interface AdmissionRecordRepository extends JpaRepository<AdmissionRecord
            )
            from AdmissionRecordEntity a
            """)
-    List<AdmissionRecordDto> findAllRecords();
+    List<AdmissionRecordResponseDto> findAllRecords();
 }

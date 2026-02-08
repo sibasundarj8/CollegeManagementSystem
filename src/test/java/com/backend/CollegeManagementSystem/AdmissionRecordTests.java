@@ -1,6 +1,6 @@
 package com.backend.CollegeManagementSystem;
 
-import com.backend.CollegeManagementSystem.dtos.AdmissionRecordDto;
+import com.backend.CollegeManagementSystem.dtos.AdmissionRecordResponseDto;
 import com.backend.CollegeManagementSystem.services.AdmissionRecordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +16,16 @@ public class AdmissionRecordTests {
 
     @Test
     void getAllAdmissionRecordsTest() {
-        List<AdmissionRecordDto> records = admissionRecordService.getAllRecords();
+        List<AdmissionRecordResponseDto> records = admissionRecordService.getAllRecords();
 
-        for (AdmissionRecordDto record : records) {
+        for (AdmissionRecordResponseDto record : records) {
             System.out.println(record);
         }
     }
 
     @Test
     void getAdmissionRecordByIdTest() {
-        AdmissionRecordDto record = admissionRecordService.getRecordById(1L);
+        AdmissionRecordResponseDto record = admissionRecordService.getRecordById(1L);
         System.out.println(record);
     }
 

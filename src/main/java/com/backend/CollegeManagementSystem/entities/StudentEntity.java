@@ -2,8 +2,6 @@ package com.backend.CollegeManagementSystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -24,8 +22,6 @@ public class StudentEntity {
 
     private String name;
 
-    @NotBlank(message = "Registration number is required")
-    @Pattern(regexp = "^\\d{10}$", message = "Registration number must be exactly 10 digits")
     @Column(unique = true)
     private String registrationNumber;
 
