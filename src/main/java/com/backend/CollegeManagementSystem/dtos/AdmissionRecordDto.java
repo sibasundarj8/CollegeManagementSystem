@@ -1,4 +1,4 @@
 package com.backend.CollegeManagementSystem.dtos;
 
-public record AdmissionRecordDto(Integer fees, StudentDto student) {
+public record AdmissionRecordDto(Long id, String studentName, Integer fees) {
 }

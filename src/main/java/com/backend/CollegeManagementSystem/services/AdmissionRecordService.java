@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdmissionRecordService {
@@ -29,11 +28,7 @@ public class AdmissionRecordService {
 
     // returns all the Admission records
     public List<AdmissionRecordDto> getAllRecords() {
-        List<AdmissionRecordEntity> recordEntities = repository.findAll();
-
-        return recordEntities.stream()
-                .map(entity -> modelMapper.map(entity, AdmissionRecordDto.class))
-                .collect(Collectors.toList());
+        return repository.findAllRecords();
     }
 
     // returns a particular students record by Id

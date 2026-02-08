@@ -28,4 +28,10 @@ public class AdmissionRecordTests {
         AdmissionRecordDto record = admissionRecordService.getRecordById(1L);
         System.out.println(record);
     }
+
+    @Test
+    void updateFeesTest() {
+        boolean updateFees = admissionRecordService.updateFees(1L, 5000);
+        System.out.println(updateFees);
+    }
 }
