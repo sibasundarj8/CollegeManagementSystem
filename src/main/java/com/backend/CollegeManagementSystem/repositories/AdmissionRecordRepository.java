@@ -1,6 +1,6 @@
 package com.backend.CollegeManagementSystem.repositories;
 
-import com.backend.CollegeManagementSystem.dtos.AdmissionRecordResponseDto;
+import com.backend.CollegeManagementSystem.dtos.response.AdmissionRecordResponseDto;
 import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,7 +23,7 @@ public interface AdmissionRecordRepository extends JpaRepository<AdmissionRecord
      * query to get all records id, student.name and fees
      */
     @Query("""
-           SELECT new com.backend.CollegeManagementSystem.dtos.AdmissionRecordResponseDto(
+           SELECT new com.backend.CollegeManagementSystem.dtos.response.AdmissionRecordResponseDto(
                a.id, a.student.name, a.fees
            )
            from AdmissionRecordEntity a

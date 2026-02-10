@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(indexes = @Index(name = "idx_student_name", columnList = "name"))
 public class StudentEntity {
 
@@ -22,7 +21,7 @@ public class StudentEntity {
 
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String registrationNumber;
 
     @ManyToMany(
@@ -38,7 +37,7 @@ public class StudentEntity {
                     @Index(name = "idx_sp_professor", columnList = "professor_id")
             }
     )
-    private List<ProfessorEntity> professors = new ArrayList<>();
+    private Set<ProfessorEntity> professors = new HashSet<>();
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -53,9 +52,21 @@ public class StudentEntity {
                     @Index(name = "idx_ss_subject", columnList = "subject_id")
             }
     )
-    private List<SubjectEntity> subjects = new ArrayList<>();
+    private Set<SubjectEntity> subjects = new HashSet<>();
 
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private AdmissionRecordEntity admissionRecord;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudentEntity)) return false;
+        return id != null && id.equals(((StudentEntity) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -1,6 +1,13 @@
 package com.backend.CollegeManagementSystem.configs;
 
-import com.backend.CollegeManagementSystem.dtos.*;
+import com.backend.CollegeManagementSystem.dtos.request.AdmissionRecordRequestDto;
+import com.backend.CollegeManagementSystem.dtos.request.ProfessorRequestDto;
+import com.backend.CollegeManagementSystem.dtos.request.StudentRequestDto;
+import com.backend.CollegeManagementSystem.dtos.request.SubjectRequestDto;
+import com.backend.CollegeManagementSystem.dtos.response.AdmissionRecordResponseDto;
+import com.backend.CollegeManagementSystem.dtos.response.ProfessorResponseDto;
+import com.backend.CollegeManagementSystem.dtos.response.StudentResponseDto;
+import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
 import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
 import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
 import com.backend.CollegeManagementSystem.entities.StudentEntity;

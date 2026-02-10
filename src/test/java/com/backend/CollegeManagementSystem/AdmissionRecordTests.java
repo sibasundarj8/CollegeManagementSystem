@@ -1,6 +1,6 @@
 package com.backend.CollegeManagementSystem;
 
-import com.backend.CollegeManagementSystem.dtos.AdmissionRecordResponseDto;
+import com.backend.CollegeManagementSystem.dtos.response.AdmissionRecordResponseDto;
 import com.backend.CollegeManagementSystem.services.AdmissionRecordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

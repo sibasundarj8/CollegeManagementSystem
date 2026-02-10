@@ -1,4 +1,4 @@
-package com.backend.CollegeManagementSystem.dtos;
+package com.backend.CollegeManagementSystem.dtos.response;
 
 import java.util.List;
 

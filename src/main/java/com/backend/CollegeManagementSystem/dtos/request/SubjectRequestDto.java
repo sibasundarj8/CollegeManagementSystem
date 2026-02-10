@@ -1,4 +1,4 @@
-package com.backend.CollegeManagementSystem.dtos;
+package com.backend.CollegeManagementSystem.dtos.request;
 
 import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
 import com.backend.CollegeManagementSystem.entities.StudentEntity;
@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Builder
 public class SubjectRequestDto {
     // use validations here not in entity...

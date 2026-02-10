@@ -1,4 +1,4 @@
-package com.backend.CollegeManagementSystem.dtos;
+package com.backend.CollegeManagementSystem.dtos.request;
 
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Builder
 public class AdmissionRecordRequestDto {
     // use validations here not in entity...

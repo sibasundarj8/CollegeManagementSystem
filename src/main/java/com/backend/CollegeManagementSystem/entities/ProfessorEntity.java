@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(indexes = @Index(name = "idx_professor_name", columnList = "title"))
 public class ProfessorEntity {
 
@@ -23,9 +22,21 @@ public class ProfessorEntity {
     private String title;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "professor")
-    private List<SubjectEntity> subjects = new ArrayList<>();
+    private Set<SubjectEntity> subjects = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "professors")
     @JsonIgnore
-    private List<StudentEntity> students = new ArrayList<>();
+    private Set<StudentEntity> students = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProfessorEntity)) return false;
+        return id != null && id.equals(((ProfessorEntity) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

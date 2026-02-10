@@ -4,16 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Table(indexes = @Index(name = "idx_subject_professor", columnList = "professor_id"))
+@Table(indexes = {
+        @Index(name = "idx_subject_professor", columnList = "professor_id"),
+        @Index(name = "idx_subject_code", columnList = "subject_code", unique = true)
+})
 public class SubjectEntity {
 
     @Id
@@ -29,5 +31,17 @@ public class SubjectEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subjects")
     @JsonIgnore
-    private List<StudentEntity> students = new ArrayList<>();
+    private Set<StudentEntity> students = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SubjectEntity)) return false;
+        return id != null && id.equals(((SubjectEntity) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

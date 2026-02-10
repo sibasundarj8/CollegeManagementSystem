@@ -1,4 +1,4 @@
-package com.backend.CollegeManagementSystem.dtos;
+package com.backend.CollegeManagementSystem.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Builder
 public class ProfessorRequestDto {
     // use validations here not in entity...
