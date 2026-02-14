@@ -21,23 +21,8 @@ public class StudentEntity {
 
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false) // auto indexed by Hibernate
     private String registrationNumber;
-
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-            name = "student_professor_table",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "professor_id"),
-            indexes = {
-                    @Index(name = "idx_sp_student", columnList = "student_id"),
-                    @Index(name = "idx_sp_professor", columnList = "professor_id")
-            }
-    )
-    private Set<ProfessorEntity> professors = new HashSet<>();
 
     @ManyToMany(
             fetch = FetchType.LAZY,

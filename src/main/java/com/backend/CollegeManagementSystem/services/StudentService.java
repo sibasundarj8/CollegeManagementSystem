@@ -3,9 +3,7 @@ package com.backend.CollegeManagementSystem.services;
 import com.backend.CollegeManagementSystem.dtos.flat.StudentFlatDto;
 import com.backend.CollegeManagementSystem.dtos.response.StudentResponseDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
-import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
 import com.backend.CollegeManagementSystem.entities.StudentEntity;
-import com.backend.CollegeManagementSystem.entities.SubjectEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
 import com.backend.CollegeManagementSystem.repositories.StudentRepository;
 import org.modelmapper.ModelMapper;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -27,20 +24,29 @@ public class StudentService {
 
 /*⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯Helper-Methods⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯*/
 
-    private StudentResponseDto mapToResponseDto(StudentEntity student) {
-        Long studentId = student.getId();
-        String name = student.getName();
-        String registrationNumber = student.getRegistrationNumber();
+    private List<StudentResponseDto> mapToResponseDto(List<StudentFlatDto> joinTable) {
+        Map<Long, StudentResponseDto> map = new HashMap<>();
 
-        Set<String> subjects = student.getSubjects().stream()
-                .map(SubjectEntity::getTitle)
-                .collect(Collectors.toSet());
+        for (StudentFlatDto row : joinTable) {
+            StudentResponseDto student = map.computeIfAbsent(row.id(), k -> new StudentResponseDto(
+                    k,
+                    row.name(),
+                    row.registrationNumber(),
+                    new HashSet<>()
+            ));
 
-        Set<String> professors = student.getProfessors().stream()
-                .map(ProfessorEntity::getTitle)
-                .collect(Collectors.toSet());
+            if (row.subjectId() != null) {
+                student.subjects().add(
+                        new SubjectResponseDto(
+                                row.subjectId(),
+                                row.subjectTitle(),
+                                row.professorName()
+                        )
+                );
+            }
+        }
 
-        return new StudentResponseDto(studentId, name, registrationNumber, subjects, professors);
+        return new ArrayList<>(map.values());
     }
 
     // private method to return student entity by id or throw ResourceNotFoundException if student does not exist.
@@ -56,49 +62,43 @@ public class StudentService {
     @Transactional(readOnly = true)
     public List<StudentResponseDto> getAllStudents() {
         List<StudentFlatDto> studentFlatRows = repository.findAllStudentsFlat();
-        Map<Long, StudentResponseDto> map = new HashMap<>();
-
-        for (StudentFlatDto row : studentFlatRows) {
-            StudentResponseDto student = map.computeIfAbsent(row.id(), k -> new StudentResponseDto(
-                    k,
-                    row.name(),
-                    row.registrationNumber(),
-                    new HashSet<>(),
-                    new HashSet<>()
-            ));
-
-            if (row.subject() != null) student.subjects().add(row.subject());
-            if (row.professor() != null) student.professors().add(row.professor());
-        }
-
-        return (List<StudentResponseDto>) map.values();
+        return mapToResponseDto(studentFlatRows);
     }
 
     // get students By id
     @Transactional(readOnly = true)
     public StudentResponseDto getStudentById(Long id) {
-        StudentEntity student = getStudentByIdOrThrow(id);
-        return mapToResponseDto(student);
+        List<StudentFlatDto> student = repository.findStudentFlatById(id);
+
+        if (student == null || student.isEmpty()) {
+            throw new ResourceNotFoundException("Student with id " + id + " not found!");
+        }
+
+        return mapToResponseDto(student).getFirst();
     }
 
     // get all students by name
     @Transactional(readOnly = true)
     public List<StudentResponseDto> getStudentsByName(String name) {
-        List<StudentEntity> students = repository.findStudentsByNameWithRelations(name);
+        List<StudentFlatDto> students = repository.findStudentsFlatByName(name);
 
-        return students.stream()
-                .map(this::mapToResponseDto)
-                .distinct()
-                .toList();
+        if (students == null || students.isEmpty()) {
+            throw new ResourceNotFoundException("Student with name " + name + " not found!");
+        }
+
+        return mapToResponseDto(students);
     }
 
     // get the student with given registration number
     @Transactional(readOnly = true)
     public StudentResponseDto getStudentsByRegistrationNumber(String registrationNumber) {
-        StudentEntity student = repository.findStudentByRegistrationNumber(registrationNumber);
-        if (student == null) throw new ResourceNotFoundException("Student with registration number " + registrationNumber + " not found!");
+        List<StudentFlatDto> student = repository.findStudentFlatByRegistrationNumber(registrationNumber);
 
-        return mapToResponseDto(student);
+        if (student == null || student.isEmpty()) {
+            throw new ResourceNotFoundException("Student with registration number " + registrationNumber + " not found!");
+        }
+
+        return mapToResponseDto(student).getFirst();
     }
 
     /*
@@ -106,6 +106,12 @@ public class StudentService {
      */
     @Transactional(readOnly = true)
     public List<SubjectResponseDto> getSubjectsOfStudentById(Long id) {
-        return repository.getSubjectsByStudentId(id);
+        List<SubjectResponseDto> subjects = repository.getSubjectsByStudentId(id);
+
+        if (subjects.isEmpty()) {
+            if (!repository.existsById(id)) throw new ResourceNotFoundException("Student with id " + id + " does not exist!");
+        }
+
+        return subjects;
     }
 }

@@ -24,10 +24,6 @@ public class ProfessorEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "professor")
     private Set<SubjectEntity> subjects = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "professors")
-    @JsonIgnore
-    private Set<StudentEntity> students = new HashSet<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
