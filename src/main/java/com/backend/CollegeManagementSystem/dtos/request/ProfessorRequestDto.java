@@ -21,6 +21,6 @@ public class ProfessorRequestDto {
     @Size(min = 6, max = 30, message = "Size must be in between 6 ans 30")
     private String title;
 
-    private final List<SubjectRequestDto> subjects = new ArrayList<>();
-    private final List<StudentRequestDto> students = new ArrayList<>();
+    private final List<Long> subjectIds = new ArrayList<>();
+    private final List<Long> studentIds = new ArrayList<>();
 }

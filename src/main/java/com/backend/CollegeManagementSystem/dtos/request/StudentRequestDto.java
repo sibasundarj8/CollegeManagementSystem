@@ -30,7 +30,7 @@ public class StudentRequestDto {
     @Column(unique = true)
     private String registrationNumber;
 
-    private final List<ProfessorEntity> professors = new ArrayList<>();
-    private final List<SubjectEntity> subjects = new ArrayList<>();
+    private final List<Long> professorIds = new ArrayList<>();
+    private final List<Long> subjectIds = new ArrayList<>();
     private AdmissionRecordEntity admissionRecord;
 }

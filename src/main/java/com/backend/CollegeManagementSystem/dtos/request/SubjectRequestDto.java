@@ -25,5 +25,5 @@ public class SubjectRequestDto {
     private String title;
 
     private ProfessorEntity professor;
-    private final List<StudentEntity> students = new ArrayList<>();
+    private final List<Long> studentIds = new ArrayList<>();
 }
