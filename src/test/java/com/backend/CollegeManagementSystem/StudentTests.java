@@ -37,7 +37,7 @@ public class StudentTests {
 
     @Test
     void getStudentsByRegistrationNumberTest() {
-        StudentResponseDto student = studentService.getStudentsByRegistrationNumber("2301326236");
+        StudentResponseDto student = studentService.getStudentByRegistrationNumber("2301326236");
         System.out.println(student);
     }
 

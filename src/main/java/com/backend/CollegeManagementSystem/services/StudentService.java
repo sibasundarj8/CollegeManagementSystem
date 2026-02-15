@@ -119,7 +119,7 @@ public class StudentService {
 
     // get the student with given registration number
     @Transactional(readOnly = true)
-    public StudentResponseDto getStudentsByRegistrationNumber(String registrationNumber) {
+    public StudentResponseDto getStudentByRegistrationNumber(String registrationNumber) {
         List<StudentFlatDto> student = repository.findStudentFlatByRegistrationNumber(registrationNumber);
 
         if (student == null || student.isEmpty()) {
