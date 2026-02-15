@@ -104,7 +104,11 @@ public class StudentService {
     // get all students by name
     @Transactional(readOnly = true)
     public List<StudentResponseDto> getStudentsByName(String name) {
-        List<StudentFlatDto> students = repository.findStudentsFlatByName(name);
+        List<StudentFlatDto> students;
+
+        if (name == null || name.isBlank())
+            students = repository.findAllStudentsFlat();
+        else students = repository.findStudentsFlatByName(name);
 
         if (students == null || students.isEmpty()) {
             throw new ResourceNotFoundException("Student with name " + name + " not found!");
