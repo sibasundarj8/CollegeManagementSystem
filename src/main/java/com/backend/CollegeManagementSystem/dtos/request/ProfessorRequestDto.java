@@ -22,5 +22,4 @@ public class ProfessorRequestDto {
     private String title;
 
     private final List<Long> subjectIds = new ArrayList<>();
-    private final List<Long> studentIds = new ArrayList<>();
 }

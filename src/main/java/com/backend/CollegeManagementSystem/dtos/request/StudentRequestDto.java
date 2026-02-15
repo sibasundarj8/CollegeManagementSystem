@@ -1,9 +1,5 @@
 package com.backend.CollegeManagementSystem.dtos.request;
 
-import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
-import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
-import com.backend.CollegeManagementSystem.entities.SubjectEntity;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -27,10 +23,8 @@ public class StudentRequestDto {
 
     @NotBlank(message = "Registration number is required")
     @Pattern(regexp = "^\\d{10}$", message = "Registration number must be exactly 10 digits")
-    @Column(unique = true)
     private String registrationNumber;
 
-    private final List<Long> professorIds = new ArrayList<>();
-    private final List<Long> subjectIds = new ArrayList<>();
-    private AdmissionRecordEntity admissionRecord;
+    private List<Long> subjectIds = new ArrayList<>();
+    private Integer fees;
 }

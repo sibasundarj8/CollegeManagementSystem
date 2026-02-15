@@ -17,6 +17,7 @@ public class StudentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     private String name;
@@ -37,11 +38,32 @@ public class StudentEntity {
                     @Index(name = "idx_ss_subject", columnList = "subject_id")
             }
     )
+    @Setter(AccessLevel.NONE)
     private Set<SubjectEntity> subjects = new HashSet<>();
 
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private AdmissionRecordEntity admissionRecord;
+
+
+
+
+    // add and remove methods exists only in owning side.
+
+    public void addSubject(SubjectEntity subject) {
+        this.subjects.add(subject);
+        subject.getStudents().add(this);
+    }
+
+    public void removeSubject(SubjectEntity subject) {
+        this.subjects.remove(subject);
+        subject.getStudents().remove(this);
+    }
+
+
+
+
+    // equals on the basis of Id and hashcode on the basis of getClass()
 
     @Override
     public boolean equals(Object o) {

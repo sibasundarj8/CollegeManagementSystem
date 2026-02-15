@@ -1,5 +1,6 @@
 package com.backend.CollegeManagementSystem;
 
+import com.backend.CollegeManagementSystem.dtos.request.StudentRequestDto;
 import com.backend.CollegeManagementSystem.dtos.response.StudentResponseDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
 import com.backend.CollegeManagementSystem.services.StudentService;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -43,5 +45,34 @@ public class StudentTests {
     void getSubjectsOfStudentByIdTest() {
         List<SubjectResponseDto> subjects = studentService.getSubjectsOfStudentById(1L);
         System.out.println(subjects);
+    }
+
+    @Test
+    void createStudentTest() {
+        StudentRequestDto student = new StudentRequestDto();
+        student.setName("Sibasundar Jena");
+        student.setRegistrationNumber("2301326236");
+
+        List<Long> subjectIds = new ArrayList<>();
+        subjectIds.add(1L);
+        subjectIds.add(2L);
+
+        student.setSubjectIds(subjectIds);
+        student.setFees(25000);
+
+        StudentResponseDto response = studentService.createStudent(student);
+        System.out.println(response);
+    }
+
+    @Test
+    void assignSubjectToStudentTest() {
+        StudentResponseDto student = studentService.assignSubject(1L, 1L);
+        System.out.println(student);
+    }
+
+    @Test
+    void unassignSubjectFromStudentTest() {
+        StudentResponseDto student = studentService.unassignSubject(1L, 1L);
+        System.out.println(student);
     }
 }

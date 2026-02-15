@@ -12,14 +12,12 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(indexes = {
-        @Index(name = "idx_subject_professor", columnList = "professor_id"),
-        @Index(name = "idx_subject_code", columnList = "subject_code", unique = true)
-})
+@Table(indexes = @Index(name = "idx_subject_professor", columnList = "professor_id"))
 public class SubjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     private String title;
@@ -31,7 +29,13 @@ public class SubjectEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subjects")
     @JsonIgnore
+    @Setter(AccessLevel.NONE)
     private Set<StudentEntity> students = new HashSet<>();
+
+
+
+
+    // equals on the basis of Id and hashcode on the basis of getClass()
 
     @Override
     public boolean equals(Object o) {
