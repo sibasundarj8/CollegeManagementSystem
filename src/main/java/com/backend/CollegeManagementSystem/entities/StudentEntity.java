@@ -46,8 +46,6 @@ public class StudentEntity {
     private AdmissionRecordEntity admissionRecord;
 
 
-
-
     // add and remove methods exists only in owning side.
 
     public void addSubject(SubjectEntity subject) {

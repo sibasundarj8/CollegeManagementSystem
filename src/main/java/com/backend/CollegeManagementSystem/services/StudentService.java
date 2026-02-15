@@ -31,7 +31,7 @@ public class StudentService {
 /*⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯Helper-Methods⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯*/
 
     // takes a list of flat dtos and converts it into a list of response dtos
-    private List<StudentResponseDto> flatDtosToResponseDto(List<StudentFlatDto> joinTable) {
+    private List<StudentResponseDto>  flatDtosToResponseDto(List<StudentFlatDto> joinTable) {
         Map<Long, StudentResponseDto> map = new HashMap<>();
 
         for (StudentFlatDto row : joinTable) {
@@ -101,14 +101,12 @@ public class StudentService {
         return flatDtosToResponseDto(student).getFirst();
     }
 
-    // get all students by name
+    // get students by name
     @Transactional(readOnly = true)
     public List<StudentResponseDto> getStudentsByName(String name) {
-        List<StudentFlatDto> students;
-
-        if (name == null || name.isBlank())
-            students = repository.findAllStudentsFlat();
-        else students = repository.findStudentsFlatByName(name);
+        List<StudentFlatDto> students =
+                (name == null || name.isBlank()) ? repository.findAllStudentsFlat()
+                        : repository.findStudentsFlatByName(name);
 
         if (students == null || students.isEmpty()) {
             throw new ResourceNotFoundException("Student with name " + name + " not found!");
