@@ -94,5 +94,5 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
                    JOIN sub.professor prof
                    WHERE s.id = :id
             """)
-    List<SubjectResponseDto> getSubjectsByStudentId(@Param("id") Long id);
+    List<SubjectResponseDto> findSubjectsByStudentId(@Param("id") Long id);
 }

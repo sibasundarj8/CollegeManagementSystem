@@ -127,7 +127,7 @@ public class StudentService {
     // get all the subjects of a particular student by Id.
     @Transactional(readOnly = true)
     public List<SubjectResponseDto> getSubjectsOfStudentById(Long id) {
-        List<SubjectResponseDto> subjects = repository.getSubjectsByStudentId(id);
+        List<SubjectResponseDto> subjects = repository.findSubjectsByStudentId(id);
 
         if (subjects.isEmpty()) {
             if (!repository.existsById(id)) throw new ResourceNotFoundException("Student with id " + id + " does not exist!");
