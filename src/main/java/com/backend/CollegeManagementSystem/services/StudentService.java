@@ -108,10 +108,6 @@ public class StudentService {
                 (name == null || name.isBlank()) ? repository.findAllStudentsFlat()
                         : repository.findStudentsFlatByName(name);
 
-        if (students == null || students.isEmpty()) {
-            throw new ResourceNotFoundException("Student with name " + name + " not found!");
-        }
-
         return flatDtosToResponseDto(students);
     }
 
