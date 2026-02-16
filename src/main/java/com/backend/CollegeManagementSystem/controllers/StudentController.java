@@ -79,7 +79,7 @@ public class StudentController {
     }
 
     // unassign subject to a student by its id : response should be 200 ok
-    @PostMapping("/{studentId}/subjects/{subjectId}")
+    @DeleteMapping("/{studentId}/subjects/{subjectId}")
     public ResponseEntity<StudentResponseDto> unAssignSubjectFromStudent(
             @PathVariable Long studentId,
             @PathVariable Long subjectId

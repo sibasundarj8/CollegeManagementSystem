@@ -25,10 +25,7 @@ public class StudentEntity {
     @Column(unique = true, nullable = false) // auto indexed by Hibernate
     private String registrationNumber;
 
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_subject_table",
             joinColumns = @JoinColumn(name = "student_id"),
