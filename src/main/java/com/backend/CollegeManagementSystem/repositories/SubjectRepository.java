@@ -57,7 +57,7 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
                    )
                    FROM SubjectEntity s
                    LEFT JOIN s.professor p
-                   WHERE s.title = :title
+                   WHERE LOWER(s.title) LIKE LOWER(CONCAT("%", :title, "%"))
             """)
-    Optional<SubjectResponseDto> findSubjectByTitle(@Param("title") String title);
+    List<SubjectResponseDto> findSubjectByTitle(@Param("title") String title);
 }

@@ -57,13 +57,12 @@ public class StudentService {
     }
 
     private StudentResponseDto mapToResponseDto(StudentEntity student) {
-        Set<SubjectResponseDto> subjects = student.getSubjects().stream()
-                .map(subjectEntity -> new SubjectResponseDto(
-                        subjectEntity.getId(),
-                        subjectEntity.getTitle(),
-                        subjectEntity.getProfessor().getTitle()
-                ))
-                .collect(Collectors.toSet());
+        Set<SubjectResponseDto> subjects = new HashSet<>();
+
+        for (SubjectEntity sub : student.getSubjects()) {
+            String professor = (sub.getProfessor() == null) ? null : sub.getProfessor().getTitle();
+            subjects.add(new SubjectResponseDto(sub.getId(), sub.getTitle(), professor));
+        }
 
         return new StudentResponseDto(
                 student.getId(),
@@ -129,8 +128,8 @@ public class StudentService {
     public List<SubjectResponseDto> getSubjectsOfStudentById(Long id) {
         List<SubjectResponseDto> subjects = repository.findSubjectsByStudentId(id);
 
-        if (subjects.isEmpty()) {
-            if (!repository.existsById(id)) throw new ResourceNotFoundException("Student with id " + id + " does not exist!");
+        if (subjects.isEmpty() && !repository.existsById(id)) {
+            throw new ResourceNotFoundException("Student with id " + id + " does not exist!");
         }
 
         return subjects;

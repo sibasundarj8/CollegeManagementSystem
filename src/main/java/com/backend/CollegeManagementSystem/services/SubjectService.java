@@ -55,9 +55,8 @@ public class SubjectService {
     }
 
     @Transactional(readOnly = true)
-    public SubjectResponseDto getSubjectByTitle(String title){
-        return repository.findSubjectByTitle(title)
-                .orElseThrow(() -> new ResourceNotFoundException("Subject not found with title " + title));
+    public List<SubjectResponseDto> getSubjectByTitle(String title){
+        return repository.findSubjectByTitle(title);
     }
 
     @Transactional
@@ -80,24 +79,34 @@ public class SubjectService {
     @Transactional
     public SubjectResponseDto assignProfessor(Long subjectId, Long professorId) {
         SubjectEntity subject = getSubjectByIdOrThrow(subjectId);
-        ProfessorEntity professor = professorService.getProfessorByIdElseThrough(professorId);
+        ProfessorEntity newProfessor = professorService.getProfessorByIdElseThrough(professorId);
+        ProfessorEntity oldProfessor = subject.getProfessor();
 
-        subject.setProfessor(professor);
-        professor.getSubjects().add(subject);
+        if ((subject.getProfessor() != null)) {
+            if (oldProfessor.getId().equals(professorId)) {
+                return mapToResponse(subject);
+            } else {
+                oldProfessor.getSubjects().remove(subject);
+            }
+        }
 
-        subject = repository.save(subject);
+        subject.setProfessor(newProfessor);
+        newProfessor.getSubjects().add(subject);
+
         return mapToResponse(subject);
     }
 
     @Transactional
-    public SubjectResponseDto unassignProfessor(Long subjectId, Long professorId) {
+    public SubjectResponseDto unassignProfessor(Long subjectId) {
         SubjectEntity subject = getSubjectByIdOrThrow(subjectId);
-        ProfessorEntity professor = professorService.getProfessorByIdElseThrough(professorId);
 
+        if (subject.getProfessor() == null) {
+            throw new IllegalStateException("Subject is not assigned to any professor");
+        }
+
+        subject.getProfessor().getSubjects().remove(subject);
         subject.setProfessor(null);
-        professor.getSubjects().remove(subject);
 
-        subject = repository.save(subject);
         return mapToResponse(subject);
     }
 

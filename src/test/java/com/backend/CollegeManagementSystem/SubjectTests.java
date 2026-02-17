@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class SubjectTests {
 
@@ -21,7 +23,7 @@ public class SubjectTests {
 
     @Test
     void findSubjectByTitleTest() {
-        SubjectResponseDto subject = service.getSubjectByTitle("Data Structures and Algorithms");
+        List<SubjectResponseDto> subject = service.getSubjectByTitle("Data Structures and Algorithms");
         System.out.println(subject);
     }
 
@@ -48,7 +50,7 @@ public class SubjectTests {
 
     @Test
     void unassignSubjectFromProfessorTest() {
-        SubjectResponseDto response = service.unassignProfessor(1L, 1L);
+        SubjectResponseDto response = service.unassignProfessor(1L);
         System.out.println(response);
     }
 

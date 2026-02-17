@@ -31,7 +31,7 @@ public class StudentController {
     }
 
     // get Student by Id : response should be 200 ok
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> getStudentById(
             @PathVariable Long id) {
 
