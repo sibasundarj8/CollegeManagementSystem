@@ -3,6 +3,7 @@ package com.backend.CollegeManagementSystem.services;
 import com.backend.CollegeManagementSystem.dtos.request.SubjectRequestDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
 import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
+import com.backend.CollegeManagementSystem.entities.StudentEntity;
 import com.backend.CollegeManagementSystem.entities.SubjectEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
 import com.backend.CollegeManagementSystem.repositories.SubjectRepository;
@@ -112,6 +113,12 @@ public class SubjectService {
 
     @Transactional
     public void deleteSubjectById(Long subjectId) {
-        repository.deleteById(subjectId);
+        SubjectEntity subject = getSubjectByIdOrThrow(subjectId);
+
+        for (StudentEntity student : subject.getStudents()) {
+            student.getSubjects().remove(subject);
+        }
+
+        repository.delete(subject);
     }
 }

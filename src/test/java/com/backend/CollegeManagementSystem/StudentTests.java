@@ -50,15 +50,15 @@ public class StudentTests {
     @Test
     void createStudentTest() {
         StudentRequestDto student = new StudentRequestDto();
-        student.setName("Sibasundar Jena");
-        student.setRegistrationNumber("2301326236");
+        student.setName("Sidharth Sourabh Mishra");
+        student.setRegistrationNumber("2301326238");
 
         List<Long> subjectIds = new ArrayList<>();
         subjectIds.add(1L);
         subjectIds.add(2L);
 
         student.setSubjectIds(subjectIds);
-        student.setFees(25000);
+        student.setFees(45000);
 
         StudentResponseDto response = studentService.createStudent(student);
         System.out.println(response);
@@ -66,13 +66,13 @@ public class StudentTests {
 
     @Test
     void assignSubjectToStudentTest() {
-        StudentResponseDto student = studentService.assignSubject(1L, 1L);
+        StudentResponseDto student = studentService.assignSubject(2L, 9L);
         System.out.println(student);
     }
 
     @Test
     void unassignSubjectFromStudentTest() {
-        StudentResponseDto student = studentService.unassignSubject(1L, 1L);
+        StudentResponseDto student = studentService.unassignSubject(1L, 9L);
         System.out.println(student);
     }
 }
