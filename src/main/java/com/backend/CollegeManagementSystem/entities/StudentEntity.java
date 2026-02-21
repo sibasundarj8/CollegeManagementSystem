@@ -38,10 +38,6 @@ public class StudentEntity {
     @Setter(AccessLevel.NONE)
     private Set<SubjectEntity> subjects = new HashSet<>();
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private AdmissionRecordEntity admissionRecord;
-
 
 
 

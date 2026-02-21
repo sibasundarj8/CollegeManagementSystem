@@ -76,7 +76,6 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
                    FROM StudentEntity s
                    LEFT JOIN FETCH s.subjects sub
                    LEFT JOIN FETCH sub.professor
-                   INNER JOIN FETCH s.admissionRecord
                    WHERE s.id = :id
             """)
     Optional<StudentEntity> findStudentByIdWithRelations(@Param("id") Long id);

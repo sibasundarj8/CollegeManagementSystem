@@ -4,7 +4,6 @@ import com.backend.CollegeManagementSystem.dtos.flat.StudentFlatDto;
 import com.backend.CollegeManagementSystem.dtos.request.StudentRequestDto;
 import com.backend.CollegeManagementSystem.dtos.response.StudentResponseDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
-import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
 import com.backend.CollegeManagementSystem.entities.StudentEntity;
 import com.backend.CollegeManagementSystem.entities.SubjectEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
@@ -14,17 +13,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
     private final StudentRepository repository;
     private final ModelMapper mapper;
+    private final AdmissionRecordService admissionRecordService;
     private final SubjectService subjectService;
 
-    public StudentService(StudentRepository studentRepository, ModelMapper modelMapper, SubjectService subjectService) {
+    public StudentService(StudentRepository studentRepository, ModelMapper modelMapper, AdmissionRecordService admissionService, SubjectService subjectService) {
         this.repository = studentRepository;
         this.mapper = modelMapper;
+        this.admissionRecordService = admissionService;
         this.subjectService = subjectService;
     }
 
@@ -148,12 +148,8 @@ public class StudentService {
             student.getSubjects().addAll(subjects);
         }
 
-        AdmissionRecordEntity admissionRecord = new AdmissionRecordEntity();
-        admissionRecord.setStudent(student);
-        admissionRecord.setFees(requestDto.getFees());
-
-        student.setAdmissionRecord(admissionRecord);
         repository.save(student);
+        admissionRecordService.createAdmissionRecord(student, requestDto.getFees());
 
         return mapToResponseDto(student);
     }

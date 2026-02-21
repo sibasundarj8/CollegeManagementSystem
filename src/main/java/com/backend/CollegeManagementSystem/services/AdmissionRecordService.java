@@ -1,7 +1,9 @@
 package com.backend.CollegeManagementSystem.services;
 
+import com.backend.CollegeManagementSystem.dtos.request.AdmissionRecordRequestDto;
 import com.backend.CollegeManagementSystem.dtos.response.AdmissionRecordResponseDto;
 import com.backend.CollegeManagementSystem.entities.AdmissionRecordEntity;
+import com.backend.CollegeManagementSystem.entities.StudentEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
 import com.backend.CollegeManagementSystem.repositories.AdmissionRecordRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,5 +50,15 @@ public class AdmissionRecordService {
         if (rowAffected == 0) throw new ResourceNotFoundException("Admission record with id " + id + " not found!");
 
         return true;
+    }
+
+    // create new admission record --> creating a new admission record
+    @Transactional
+    public AdmissionRecordEntity createAdmissionRecord(StudentEntity student, Integer fees) {
+        AdmissionRecordEntity admissionRecord = new AdmissionRecordEntity();
+        admissionRecord.setStudent(student);
+        admissionRecord.setFees(fees);
+
+        return repository.save(admissionRecord);
     }
 }
