@@ -15,7 +15,7 @@ public class AdmissionRecordEntity {
 
     private Integer fees;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST) // save student automatically
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "student_id", unique = true)
     private StudentEntity student;

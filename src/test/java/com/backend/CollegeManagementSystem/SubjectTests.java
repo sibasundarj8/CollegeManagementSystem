@@ -2,6 +2,7 @@ package com.backend.CollegeManagementSystem;
 
 import com.backend.CollegeManagementSystem.dtos.request.SubjectRequestDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
+import com.backend.CollegeManagementSystem.entities.SubjectEntity;
 import com.backend.CollegeManagementSystem.services.SubjectService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,12 @@ public class SubjectTests {
 
     @Test
     void deleteSubjectTest() {
-        service.deleteSubjectById(1L);
+        service.deleteSubjectById(10L);
+    }
+
+    @Test
+    void getSubjectByIdOrThrowTest() {
+        SubjectEntity subject = service.getSubjectByIdOrThrow(5L);
+        System.out.println(subject);
     }
 }

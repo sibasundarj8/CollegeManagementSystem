@@ -1,5 +1,6 @@
 package com.backend.CollegeManagementSystem.services;
 
+import com.backend.CollegeManagementSystem.dtos.response.ProfessorResponseDto;
 import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
 import com.backend.CollegeManagementSystem.repositories.ProfessorRepository;
@@ -23,5 +24,7 @@ public class ProfessorService {
 
 /*⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯Service-API⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯*/
 
-
+    public ProfessorResponseDto getProfessorById(Long id){
+        return null;
+    }
 }

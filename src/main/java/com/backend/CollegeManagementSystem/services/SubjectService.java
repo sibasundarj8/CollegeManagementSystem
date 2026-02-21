@@ -3,7 +3,6 @@ package com.backend.CollegeManagementSystem.services;
 import com.backend.CollegeManagementSystem.dtos.request.SubjectRequestDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
 import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
-import com.backend.CollegeManagementSystem.entities.StudentEntity;
 import com.backend.CollegeManagementSystem.entities.SubjectEntity;
 import com.backend.CollegeManagementSystem.exceptions.ResourceNotFoundException;
 import com.backend.CollegeManagementSystem.repositories.SubjectRepository;
@@ -33,13 +32,17 @@ public class SubjectService {
         return new SubjectResponseDto(id, title, professorName);
     }
 
-    SubjectEntity getSubjectByIdOrThrow(Long id) {
+    public SubjectEntity getSubjectByIdOrThrow(Long id) {
         return repository.findSubjectByIdWithRelations(id).orElseThrow(() ->
                 new ResourceNotFoundException("Subject not found with id " + id));
     }
 
     List<SubjectEntity> findAllSubjectsWithId(List<Long> ids) {
         return repository.findAllById(ids);
+    }
+
+    void deleteStudentMappings(Long subjectId) {
+        repository.deleteStudentMappings(subjectId);
     }
 
 /*⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯Service-API⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯*/
@@ -115,9 +118,7 @@ public class SubjectService {
     public void deleteSubjectById(Long subjectId) {
         SubjectEntity subject = getSubjectByIdOrThrow(subjectId);
 
-        for (StudentEntity student : subject.getStudents()) {
-            student.getSubjects().remove(subject);
-        }
+        deleteStudentMappings(subjectId);
 
         repository.delete(subject);
     }

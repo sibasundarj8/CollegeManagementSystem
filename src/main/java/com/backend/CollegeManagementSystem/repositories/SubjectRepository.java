@@ -3,6 +3,7 @@ package com.backend.CollegeManagementSystem.repositories;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
 import com.backend.CollegeManagementSystem.entities.SubjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -60,4 +61,16 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
                    WHERE LOWER(s.title) LIKE LOWER(CONCAT("%", :title, "%"))
             """)
     List<SubjectResponseDto> findSubjectByTitle(@Param("title") String title);
+
+    /*
+     * destroy the all student relations with this subject
+     */
+    @Modifying
+    @Query(value = """
+                   DELETE FROM student_subject_table
+                   WHERE subject_id = :subjectId
+            """,
+            nativeQuery = true
+    )
+    void deleteStudentMappings(@Param("subjectId") Long subjectId);
 }
