@@ -1,6 +1,7 @@
 package com.backend.CollegeManagementSystem.services;
 
 import com.backend.CollegeManagementSystem.dtos.request.SubjectRequestDto;
+import com.backend.CollegeManagementSystem.dtos.response.StudentResponseDto;
 import com.backend.CollegeManagementSystem.dtos.response.SubjectResponseDto;
 import com.backend.CollegeManagementSystem.entities.ProfessorEntity;
 import com.backend.CollegeManagementSystem.entities.SubjectEntity;
@@ -61,6 +62,11 @@ public class SubjectService {
     @Transactional(readOnly = true)
     public List<SubjectResponseDto> getSubjectByTitle(String title){
         return repository.findSubjectByTitle(title);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getStudentsBySubjectId(Long subjectId) {
+        return repository.findAllStudentsWithSubjectId(subjectId);
     }
 
     @Transactional

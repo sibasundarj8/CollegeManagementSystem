@@ -63,6 +63,17 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
     List<SubjectResponseDto> findSubjectByTitle(@Param("title") String title);
 
     /*
+     * returns all the names of students associated with this subjectId.
+     */
+    @Query("""
+                   SELECT s.name
+                   FROM StudentEntity s
+                   INNER JOIN s.subjects sub
+                   WHERE sub.id = :subjectId
+            """)
+    List<String> findAllStudentsWithSubjectId(@Param("subjectId") Long subjectId);
+
+    /*
      * destroy the all student relations with this subject
      */
     @Modifying

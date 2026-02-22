@@ -44,6 +44,12 @@ public class SubjectTests {
     }
 
     @Test
+    void getStudentsBySubjectIdTest() {
+        List<String> subjects = service.getStudentsBySubjectId(11L);
+        System.out.println(subjects);
+    }
+
+    @Test
     void assignSubjectToProfessorTest() {
         SubjectResponseDto response = service.assignProfessor(1L, 1L);
         System.out.println(response);

@@ -35,6 +35,11 @@ public class SubjectController {
         return ResponseEntity.ok(subjects);
     }
 
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<String>> getAllSubjectsByStudentId(@PathVariable("id") Long subjectId) {
+        return ResponseEntity.ok(service.getStudentsBySubjectId(subjectId));
+    }
+
     @PostMapping
     public ResponseEntity<SubjectResponseDto> createSubject(@RequestBody SubjectRequestDto subjectRequestDto) {
         SubjectResponseDto subject = service.createSubject(subjectRequestDto);
@@ -65,5 +70,9 @@ public class SubjectController {
         return ResponseEntity.ok(subject);
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSubject(@PathVariable Long id) {
+        service.deleteSubjectById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
