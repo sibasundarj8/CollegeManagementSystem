@@ -22,6 +22,7 @@ public class ProfessorEntity {
     private String title;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "professor")
+    @Setter(AccessLevel.NONE)
     private Set<SubjectEntity> subjects = new HashSet<>();
 
 

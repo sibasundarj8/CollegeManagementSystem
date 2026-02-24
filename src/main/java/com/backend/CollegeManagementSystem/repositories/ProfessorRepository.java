@@ -24,6 +24,20 @@ public interface ProfessorRepository extends JpaRepository<ProfessorEntity, Long
     Optional<ProfessorEntity> findSubjectByIdWithRelations(@Param("id") Long id);
 
     /*
+     * returns all professors using projection
+     */
+    @Query("""
+                   SELECT DISTINCT new com.backend.CollegeManagementSystem.dtos.flat.ProfessorFlatDto(
+                               p.id,
+                               p.title,
+                               sub.title
+                   )
+                   FROM ProfessorEntity p
+                   LEFT JOIN p.subjects sub
+            """)
+    List<ProfessorFlatDto> findAllFlatProfessors();
+
+    /*
      * returns a professor by id using projection
      */
     @Query("""
@@ -33,7 +47,34 @@ public interface ProfessorRepository extends JpaRepository<ProfessorEntity, Long
                                sub.title
                    )
                    FROM ProfessorEntity p
-                   INNER JOIN p.subjects sub
+                   LEFT JOIN p.subjects sub
+                   WHERE p.id = :id
             """)
-    Optional<List<ProfessorFlatDto>> findProfessorById(@Param("id") Long id);
+    List<ProfessorFlatDto> findProfessorFlatById(@Param("id") Long id);
+
+    /*
+     * returns all the professors which matches the title
+     */
+    @Query("""
+                   SELECT DISTINCT new com.backend.CollegeManagementSystem.dtos.flat.ProfessorFlatDto(
+                               p.id,
+                               p.title,
+                               sub.title
+                   )
+                   FROM ProfessorEntity p
+                   LEFT JOIN p.subjects sub
+                   WHERE LOWER(p.title) LIKE CONCAT('%', :title, '%')
+            """)
+    List<ProfessorFlatDto> findProfessorFlatByTitle(@Param("title") String title);
+
+    /*
+     * returns all the subjects of particular professor by professor_id
+     */
+    @Query("""
+                   SELECT sub.title
+                   FROM ProfessorEntity p
+                   LEFT JOIN p.subjects sub
+                   WHERE p.id = :id
+            """)
+    List<String> findAllSubjectOfProfessor(Long id);
 }
