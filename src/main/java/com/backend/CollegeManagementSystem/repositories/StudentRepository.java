@@ -49,7 +49,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
                    FROM StudentEntity s
                    LEFT JOIN s.subjects sub
                    LEFT JOIN sub.professor p
-                   WHERE LOWER(s.name) LIKE LOWER(CONCAT('%', :name, '%'))
+                   WHERE LOWER(s.name) LIKE CONCAT('%', :name, '%')
             """)
     // if name = "siba than "CONCAT('%', :name, '%')" means "%siba%", in SQL it means matches every string containing 'siba'.
     List<StudentFlatDto> findStudentsFlatByName(@Param("name") String name);

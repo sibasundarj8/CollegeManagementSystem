@@ -61,7 +61,7 @@ public class SubjectService {
 
     @Transactional(readOnly = true)
     public List<SubjectResponseDto> getSubjectByTitle(String title){
-        return repository.findSubjectByTitle(title);
+        return repository.findSubjectByTitle(title.toLowerCase());
     }
 
     @Transactional(readOnly = true)

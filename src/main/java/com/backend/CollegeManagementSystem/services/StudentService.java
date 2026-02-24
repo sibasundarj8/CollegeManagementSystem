@@ -105,7 +105,7 @@ public class StudentService {
     public List<StudentResponseDto> getStudentsByName(String name) {
         List<StudentFlatDto> students =
                 (name == null || name.isBlank()) ? repository.findAllStudentsFlat()
-                        : repository.findStudentsFlatByName(name);
+                        : repository.findStudentsFlatByName(name.toLowerCase());
 
         return flatDtosToResponseDto(students);
     }
